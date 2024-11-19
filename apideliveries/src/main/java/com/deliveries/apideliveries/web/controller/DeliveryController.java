@@ -30,4 +30,13 @@ public class DeliveryController {
         }
         return ResponseEntity.ok(deliveries);
     }
+
+    @GetMapping("/pending")
+    public ResponseEntity<List<Delivery>> getPendingDeliveries() {
+        List<Delivery> pendingDeliveries = deliveryService.getPendingDeliveries();
+        if (pendingDeliveries.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(pendingDeliveries);
+    }
 }

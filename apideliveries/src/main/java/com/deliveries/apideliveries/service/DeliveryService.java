@@ -55,4 +55,8 @@ public class DeliveryService {
         return deliveryRepository.findAllByCreateDateTimeBetween(startDate, endDate);
     }
 
+    public List<Delivery> getPendingDeliveries() {
+        return deliveryRepository.findAllByStatus(DeliveryStatus.PENDING);
+    }
+
 }
