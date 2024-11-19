@@ -24,5 +24,8 @@ public class Address {
     private String number;
 
     @Column
+    private String complement;
+
+    @Column
     private String zipCode;
 }
