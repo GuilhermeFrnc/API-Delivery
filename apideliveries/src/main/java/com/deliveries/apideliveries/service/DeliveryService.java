@@ -8,6 +8,8 @@ import com.deliveries.apideliveries.repository.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,4 +47,27 @@ public class DeliveryService {
 
         return deliveryRepository.save(delivery);
     }
+
+    public List<Delivery> getDeliveries() {
+        LocalDateTime endDate = LocalDateTime.now();
+        LocalDateTime startDate = endDate.minusDays(7);
+
+        return deliveryRepository.findAllByCreateDateTimeBetween(startDate, endDate);
+    }
+
+    public List<Delivery> getPendingDeliveries() {
+        return deliveryRepository.findAllByStatus(DeliveryStatus.PENDING);
+    }
+
+    public List<Delivery> getDeliveriesFromLastWeek() {
+        LocalDateTime endDate = LocalDateTime.now();
+        LocalDateTime startDate = endDate.minusDays(7);
+
+        return deliveryRepository.findAllByCreateDateTimeBetweenAndStatus(
+                startDate,
+                endDate,
+                DeliveryStatus.DELIVERED
+        );
+    }
+
 }
