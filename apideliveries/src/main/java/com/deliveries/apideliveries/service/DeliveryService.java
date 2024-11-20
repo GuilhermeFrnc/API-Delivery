@@ -70,4 +70,31 @@ public class DeliveryService {
         );
     }
 
+    public Delivery findDelivery(Long deliveryId) {
+        return deliveryRepository.findById(deliveryId)
+                .orElseThrow(() -> new IllegalArgumentException("Delivery not found with ID: " + deliveryId));
+    }
+
+    public Delivery updateDeliveryStatusToDelivered(Long deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId)
+                .orElseThrow(() -> new IllegalArgumentException("Delivery not found with ID: " + deliveryId));
+
+        if (delivery.getStatus() != DeliveryStatus.PENDING) {
+            throw new IllegalStateException("Only deliveries with status PENDING can be updated to DELIVERED");
+        }
+
+        delivery.setStatus(DeliveryStatus.DELIVERED);
+        delivery.setDeliveryDateTime(LocalDateTime.now());
+
+        return deliveryRepository.save(delivery);
+    }
+
+
+    public void deleteDelivery(Long deliveryId) {
+        if (!deliveryRepository.existsById(deliveryId)) {
+            throw new IllegalArgumentException("Delivery not found with ID: " + deliveryId);
+        }
+        deliveryRepository.deleteById(deliveryId);
+    }
+
 }
