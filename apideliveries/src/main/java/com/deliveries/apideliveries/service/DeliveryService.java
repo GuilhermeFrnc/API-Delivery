@@ -83,4 +83,12 @@ public class DeliveryService {
         return deliveryRepository.save(delivery);
     }
 
+
+    public void deleteDelivery(Long deliveryId) {
+        if (!deliveryRepository.existsById(deliveryId)) {
+            throw new IllegalArgumentException("Delivery not found with ID: " + deliveryId);
+        }
+        deliveryRepository.deleteById(deliveryId);
+    }
+
 }

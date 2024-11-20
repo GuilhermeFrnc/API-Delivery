@@ -1,6 +1,5 @@
 package com.deliveries.apideliveries.web.controller;
 
-import com.deliveries.apideliveries.entity.Address;
 import com.deliveries.apideliveries.entity.Delivery;
 import com.deliveries.apideliveries.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +59,16 @@ public class DeliveryController {
             return ResponseEntity.notFound().build();
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDelivery(@PathVariable Long id) {
+        try {
+            deliveryService.deleteDelivery(id);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }
