@@ -16,4 +16,10 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     List<Delivery> findAllByCreateDateTimeBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
     List<Delivery> findAllByStatus(DeliveryStatus status);
+
+    @Query("SELECT d FROM Delivery d WHERE d.createDateTime >= :startDate AND d.createDateTime <= :endDate AND d.status = :status")
+    List<Delivery> findAllByCreateDateTimeBetweenAndStatus(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("status") DeliveryStatus status);
 }

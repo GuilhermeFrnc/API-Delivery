@@ -59,4 +59,15 @@ public class DeliveryService {
         return deliveryRepository.findAllByStatus(DeliveryStatus.PENDING);
     }
 
+    public List<Delivery> getDeliveriesFromLastWeek() {
+        LocalDateTime endDate = LocalDateTime.now();
+        LocalDateTime startDate = endDate.minusDays(7);
+
+        return deliveryRepository.findAllByCreateDateTimeBetweenAndStatus(
+                startDate,
+                endDate,
+                DeliveryStatus.DELIVERED
+        );
+    }
+
 }
