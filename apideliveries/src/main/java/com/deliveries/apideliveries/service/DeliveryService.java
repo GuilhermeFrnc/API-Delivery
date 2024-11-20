@@ -84,6 +84,7 @@ public class DeliveryService {
         }
 
         delivery.setStatus(DeliveryStatus.DELIVERED);
+        delivery.setDeliveryDateTime(LocalDateTime.now());
 
         return deliveryRepository.save(delivery);
     }
