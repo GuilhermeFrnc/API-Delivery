@@ -70,4 +70,17 @@ public class DeliveryService {
         );
     }
 
+    public Delivery updateDeliveryStatusToDelivered(Long deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId)
+                .orElseThrow(() -> new IllegalArgumentException("Delivery not found with ID: " + deliveryId));
+
+        if (delivery.getStatus() != DeliveryStatus.PENDING) {
+            throw new IllegalStateException("Only deliveries with status PENDING can be updated to DELIVERED");
+        }
+
+        delivery.setStatus(DeliveryStatus.DELIVERED);
+
+        return deliveryRepository.save(delivery);
+    }
+
 }

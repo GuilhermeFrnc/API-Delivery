@@ -4,6 +4,7 @@ import com.deliveries.apideliveries.entity.Address;
 import com.deliveries.apideliveries.entity.Delivery;
 import com.deliveries.apideliveries.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,5 +48,18 @@ public class DeliveryController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(deliveries);
+    }
+
+
+    @PutMapping("/update-status/{id}")
+    public ResponseEntity<Delivery> markAsDelivered(@PathVariable Long id) {
+        try {
+            Delivery updatedDelivery = deliveryService.updateDeliveryStatusToDelivered(id);
+            return ResponseEntity.ok(updatedDelivery);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 }
