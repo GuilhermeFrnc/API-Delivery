@@ -70,6 +70,11 @@ public class DeliveryService {
         );
     }
 
+    public Delivery findDelivery(Long deliveryId) {
+        return deliveryRepository.findById(deliveryId)
+                .orElseThrow(() -> new IllegalArgumentException("Delivery not found with ID: " + deliveryId));
+    }
+
     public Delivery updateDeliveryStatusToDelivered(Long deliveryId) {
         Delivery delivery = deliveryRepository.findById(deliveryId)
                 .orElseThrow(() -> new IllegalArgumentException("Delivery not found with ID: " + deliveryId));

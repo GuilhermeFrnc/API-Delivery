@@ -49,6 +49,16 @@ public class DeliveryController {
         return ResponseEntity.ok(deliveries);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Delivery> findDelivery(@PathVariable Long id) {
+        try {
+            Delivery findDelivery = deliveryService.findDelivery(id);
+            return ResponseEntity.ok(findDelivery);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @PutMapping("/update-status/{id}")
     public ResponseEntity<Delivery> markAsDelivered(@PathVariable Long id) {
@@ -62,7 +72,7 @@ public class DeliveryController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteDelivery(@PathVariable Long id) {
         try {
             deliveryService.deleteDelivery(id);
